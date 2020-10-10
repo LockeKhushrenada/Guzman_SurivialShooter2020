@@ -8,8 +8,13 @@ public class CameraFollow : MonoBehaviour
 	public float smoothing = 5f;
 
 	private Vector3 offset;
+	private Animator anim;
 
-	void Start()
+    private void Awake()
+    {
+		anim = GetComponent<Animator>();
+    }
+    void Start()
 	{
 		offset = transform.position - target.position;
 	}
@@ -19,4 +24,8 @@ public class CameraFollow : MonoBehaviour
 		Vector3 targetCamPos = target.position + offset;
 		transform.position = Vector3.Lerp(transform.position, targetCamPos, smoothing * Time.deltaTime);
 	}
+	public void CameraShakeFunction()
+    {
+		anim.Play("ScreenShake", 0);
+    }
 }

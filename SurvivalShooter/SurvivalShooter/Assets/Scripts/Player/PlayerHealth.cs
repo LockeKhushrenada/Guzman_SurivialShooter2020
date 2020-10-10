@@ -21,6 +21,7 @@ public class PlayerHealth : MonoBehaviour
     AudioSource playerAudio;
     PlayerMovement playerMovement;
     PlayerShooting playerShooting;
+    CameraFollow camShake;
     bool isDead;
     bool damaged;
 
@@ -32,6 +33,7 @@ public class PlayerHealth : MonoBehaviour
         playerMovement = GetComponent <PlayerMovement> ();
         playerShooting = GetComponentInChildren <PlayerShooting> ();
         currentHealth = startingHealth;
+        camShake = Camera.main.GetComponent<CameraFollow>();
     }
 
 
@@ -40,6 +42,7 @@ public class PlayerHealth : MonoBehaviour
         if(damaged)
         {
             damageImage.color = flashColour;
+            camShake.CameraShakeFunction();
         }
         else
         {
