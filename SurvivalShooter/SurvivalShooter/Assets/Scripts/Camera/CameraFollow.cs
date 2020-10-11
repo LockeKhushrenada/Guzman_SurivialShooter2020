@@ -28,4 +28,8 @@ public class CameraFollow : MonoBehaviour
     {
 		anim.Play("ScreenShake", 0);
     }
+	public void DramaticZoomFunction()
+    {
+		anim.SetBool("Die", true);
+    }
 }

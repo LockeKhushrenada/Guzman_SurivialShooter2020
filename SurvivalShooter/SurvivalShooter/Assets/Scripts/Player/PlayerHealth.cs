@@ -70,6 +70,7 @@ public class PlayerHealth : MonoBehaviour
         }
         if(currentHealth <= 0 && !isDead)
         {
+            camShake.DramaticZoomFunction();
             Death ();
         }
     }
@@ -81,6 +82,7 @@ public class PlayerHealth : MonoBehaviour
 
         playerShooting.DisableEffects ();
 
+        //camShake.DramaticZoomFunction();
         anim.SetTrigger ("Die");
 
         playerAudio.clip = deathClip;
