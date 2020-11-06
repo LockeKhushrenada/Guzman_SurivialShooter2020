@@ -13,7 +13,6 @@ public class EnemyHealth : MonoBehaviour
     AudioSource enemyAudio;
     ParticleSystem hitParticles;
     CapsuleCollider capsuleCollider;
-    Material enemyMaterial;
     bool isDead;
     bool isSinking;
 
@@ -43,8 +42,7 @@ public class EnemyHealth : MonoBehaviour
         if(isDead)
             return;
 
-        enemyAudio.Play ();
-        enemyMaterial.color = Color.white;
+        enemyAudio.Play();
 
         currentHealth -= amount;
             

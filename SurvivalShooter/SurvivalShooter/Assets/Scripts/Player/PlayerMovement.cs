@@ -9,23 +9,23 @@ public class PlayerMovement : MonoBehaviour
 	private Rigidbody playerRigidbody;
 	private int floorMask;
 	private float camRayLength = 100f;
-	public ParticleSystem dustParticles;
 
 	void Awake()
 	{
-		dustParticles = GetComponent<ParticleSystem>();
 		floorMask = LayerMask.GetMask("Floor");
 		anim = GetComponent<Animator>();
 		playerRigidbody = GetComponent<Rigidbody>();
+
 	}
 
 	void FixedUpdate()
 	{
 		float h = Input.GetAxisRaw("Horizontal");
 		float v = Input.GetAxisRaw("Vertical");
+		
 
 		Move(h, v);
-		Turning();
+		Turning(); ;
 		Animating(h, v);
 	}
 
@@ -35,22 +35,30 @@ public class PlayerMovement : MonoBehaviour
 		movement = movement.normalized * speed * Time.deltaTime;
 		
 		playerRigidbody.MovePosition(transform.position + movement);
-		//dustParticles.Play();
 	}
 
 	void Turning()
 	{
-		Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-		RaycastHit floorHit;
 
-		if (Physics.Raycast(camRay, out floorHit, camRayLength, floorMask)) {
-			Vector3 playerToMouse = floorHit.point - transform.position;
-			playerToMouse.y = 0f;
-
-			Quaternion newRotation = Quaternion.LookRotation(playerToMouse);
-			playerRigidbody.MoveRotation(newRotation);
+		if (Input.GetKeyDown("e"))
+		{
+			transform.Rotate(0, 45.0f, 0, Space.World);
 		}
-	}
+		else if (Input.GetKeyDown("q"))
+        {
+			transform.Rotate(0, -45.0f, 0, Space.World);
+        }
+			/*Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+			RaycastHit floorHit;
+
+			if (Physics.Raycast(camRay, out floorHit, camRayLength, floorMask)) {
+				Vector3 playerToMouse = floorHit.point - transform.position;
+				playerToMouse.y = 0f;
+
+				Quaternion newRotation = Quaternion.LookRotation(playerToMouse);
+				playerRigidbody.MoveRotation(newRotation);
+			}*/
+		}
 
 	void Animating(float h, float v)
 	{
