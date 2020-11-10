@@ -3,6 +3,8 @@
 public class PlayerMovement : MonoBehaviour
 {
 	public float speed = 6f;
+	[SerializeField]
+	int playerIndex = 1;
 
 	private Vector3 movement;
 	private Animator anim;
@@ -20,8 +22,8 @@ public class PlayerMovement : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		float h = Input.GetAxisRaw("Horizontal");
-		float v = Input.GetAxisRaw("Vertical");
+		float h = Input.GetAxisRaw("Horizontal" + playerIndex);
+		float v = Input.GetAxisRaw("Vertical" + playerIndex);
 		
 
 		Move(h, v);
@@ -40,14 +42,10 @@ public class PlayerMovement : MonoBehaviour
 	void Turning()
 	{
 
-		if (Input.GetKeyDown("e"))
+		if (Input.GetButton("Turning" + playerIndex))
 		{
 			transform.Rotate(0, 45.0f, 0, Space.World);
 		}
-		else if (Input.GetKeyDown("q"))
-        {
-			transform.Rotate(0, -45.0f, 0, Space.World);
-        }
 			/*Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit floorHit;
 
