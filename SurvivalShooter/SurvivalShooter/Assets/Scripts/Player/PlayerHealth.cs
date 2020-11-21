@@ -7,7 +7,8 @@ using UnityEngine.SceneManagement;
 public class PlayerHealth : MonoBehaviour
 {
     public int startingHealth = 100;
-    public int currentHealth;
+    public int currentHealth1;
+    public int currentHealth2;
     public Slider healthSlider;
     public Image damageImage;
     public AudioClip playerHurt;
@@ -15,6 +16,9 @@ public class PlayerHealth : MonoBehaviour
     public AudioClip deathClip;
     public float flashSpeed = 5f;
     public Color flashColour = new Color(1f, 0f, 0f, 0.1f);
+    public SplitScreen twoPlayer;
+    [SerializeField]
+    int playerIndex = 1;
 
 
     Animator anim;
@@ -22,7 +26,8 @@ public class PlayerHealth : MonoBehaviour
     PlayerMovement playerMovement;
     PlayerShooting playerShooting;
     CameraFollow camShake;
-    bool isDead;
+    SplitScreen splitScreen;
+    public bool isDead;
     bool damaged;
 
 
@@ -32,7 +37,8 @@ public class PlayerHealth : MonoBehaviour
         playerAudio = GetComponent <AudioSource> ();
         playerMovement = GetComponent <PlayerMovement> ();
         playerShooting = GetComponentInChildren <PlayerShooting> ();
-        currentHealth = startingHealth;
+        currentHealth1 = startingHealth;
+        currentHealth2 = startingHealth;
         camShake = Camera.main.GetComponent<CameraFollow>();
     }
 
@@ -42,7 +48,7 @@ public class PlayerHealth : MonoBehaviour
         if(damaged)
         {
             damageImage.color = flashColour;
-            camShake.CameraShakeFunction();
+            //camShake.CameraShakeFunction();
         }
         else
         {
@@ -57,23 +63,48 @@ public class PlayerHealth : MonoBehaviour
     {
         damaged = true;
 
-        currentHealth -= amount;
-
-        healthSlider.value = currentHealth;
-
-        playerAudio.PlayOneShot(playerHurt);
-
-        if (currentHealth <= 25 && currentHealth > 0)
+        if (playerIndex == 1)
         {
-            playerAudio.Play();
-            playerAudio.loop = true;
+            currentHealth1 -= amount;
+            healthSlider.value = currentHealth1;
+            playerAudio.PlayOneShot(playerHurt);
+
+            if (currentHealth1 <= 25 && currentHealth1 > 0)
+            {
+                playerAudio.Play();
+                playerAudio.loop = true;
+            }
+            if (currentHealth1 <= 0 && !isDead)
+            {
+                //camShake.DramaticZoomFunction();
+                twoPlayer.playerCount--;
+                Death();
+            }
         }
-        if(currentHealth <= 0 && !isDead)
+        
+
+    }
+    public void TakeDamage2(int amount)
+    {
+        if (playerIndex == 2)
         {
-            camShake.DramaticZoomFunction();
-            Death ();
+            currentHealth2 -= amount;
+            healthSlider.value = currentHealth2;
+            playerAudio.PlayOneShot(playerHurt);
+            if (currentHealth2 <= 25 && currentHealth2 > 0)
+            {
+                playerAudio.Play();
+                playerAudio.loop = true;
+
+            }
+            if (currentHealth2 <= 0 && !isDead)
+            {
+                twoPlayer.playerCount--;
+                Death();
+            }
         }
     }
+
 
 
     void Death ()

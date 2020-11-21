@@ -4,6 +4,7 @@ public class GameOverManager : MonoBehaviour
 {
     public PlayerHealth playerHealth;
 	public float restartDelay = 5f;
+    public SplitScreen twoPlayer;
 
 
     Animator anim;
@@ -18,15 +19,33 @@ public class GameOverManager : MonoBehaviour
 
     void Update()
     {
-        if (playerHealth.currentHealth <= 0)
-        {
-            anim.SetTrigger("GameOver");
+        if (twoPlayer.multiPlayer == true)
+            if (playerHealth.currentHealth1 <= 0 && playerHealth.currentHealth2 <= 0)
+            {
+                anim.SetTrigger("GameOver");
 
-			restartTimer += Time.deltaTime;
+			    restartTimer += Time.deltaTime;
+                if (twoPlayer.playerCount <= 0)
+                {
+                    if (restartTimer >= restartDelay)
+                    {
+                        Application.LoadLevel(Application.loadedLevel);
+                    }
+                }
+            }
+        if (twoPlayer.multiPlayer == false)
+            if (playerHealth.currentHealth1 <= 0)
+            {
+                anim.SetTrigger("GameOver");
 
-			if (restartTimer >= restartDelay) {
-				Application.LoadLevel(Application.loadedLevel);
-			}
-        }
+                restartTimer += Time.deltaTime;
+                if (twoPlayer.playerCount <= 0)
+                {
+                    if (restartTimer >= restartDelay)
+                    {
+                        Application.LoadLevel(Application.loadedLevel);
+                    }
+                }
+            }
     }
 }
